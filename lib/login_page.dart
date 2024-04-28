@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hcare/signup_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:hcare/home_screen.dart';
@@ -20,79 +21,139 @@ class _LoginPageState extends State<LoginPage> {
 
     // Validate input fields (You can add more validation)
     if (phone.isEmpty || password.isEmpty) {
-      _showErrorSnackBar(context, "Please fill in all fields.");
+      _showErrorDialog(context, "Please fill in all fields!");
+      return;
+    } else if (phone.length != 10) {
+      _showErrorDialog(context, "Please enter a valid mobile number");
       return;
     }
 
     // Check credentials in the database
-    bool isAuthenticated = await _checkCredentials(phone, password);
+    int isAuthenticated = await _checkCredentials(phone, password);
 
-    if (isAuthenticated) {
+    if (isAuthenticated == 0) {
       // Navigate to home screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
+    } else if (isAuthenticated == 1) {
+      _showErrorDialog(context, "User does not exists, Log In");
     } else {
-      _showErrorSnackBar(context, "Wrong phone number or password.");
+      _showErrorDialog(context, "Wrong Password.");
     }
   }
 
   // Function to check credentials in the database
-  Future<bool> _checkCredentials(String phone, String password) async {
+  Future<int> _checkCredentials(String phone, String password) async {
     // Open the database
     Database database = await openDatabase(
-      join(await getDatabasesPath(), 'user_databasnoe.db'),
+      join(await getDatabasesPath(), 'user_database.db'),
     );
 
     // Query the database for user with matching phone and password
     List<Map<String, dynamic>> result = await database.query(
       'users',
-      where: 'phone = ? AND password = ?',
-      whereArgs: [phone, password],
+      where: 'phone = ?',
+      whereArgs: [phone],
     );
 
-    // Check if user exists with provided credentials
-    return result.isNotEmpty;
+    // Check if user exists
+    if (result.isEmpty) {
+      return 1; // User does not exist
+    }
+    // Check if the password matches
+    String storedPassword = result[0]['password'];
+    if (storedPassword != password) {
+      return 2; // Password does not match
+    }
+
+    // User exists and password matches
+    return 0;
   }
 
   // Function to show error SnackBar
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: Duration(seconds: 2),
-      ),
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Try again :("),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(Color(0xFF00E4DF)),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-      ),
-      body: Padding(
+      body: ListView(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              controller: _phoneController,
-              decoration: InputDecoration(labelText: "Phone"),
+        children: <Widget>[
+          const Padding(padding: EdgeInsets.all(20)),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40.0),
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 200.0,
+                width: 200.0,
+              ),
             ),
-            TextFormField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: "Password"),
-              obscureText: true,
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () => _handleLogin(context), // Pass context here
-              child: Text("Login"),
-            ),
-          ],
-        ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextFormField(
+                controller: _phoneController,
+                decoration: InputDecoration(labelText: "Phone"),
+              ),
+              SizedBox(height: 10.0),
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: "Password"),
+                obscureText: true,
+              ),
+              SizedBox(height: 30.0),
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFF00E4DF))),
+                onPressed: () => _handleLogin(context),
+                child: Text("Log In"),
+              ),
+              const SizedBox(height: 1.0),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xFFA9A9A9)),
+                ),
+                onPressed: () {
+                  // Navigate to signup page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
+                  );
+                },
+                child: const Text("Don't have an account? Sign up"),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
