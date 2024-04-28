@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/main.dart';
 import 'package:hcare/q3_page.dart';
 
@@ -20,7 +19,7 @@ class _Question2PageState extends State<Question2Page> {
       _showErrorDialog(context, "Please fill in your height!");
       return;
     } else {
-      currData?.height = int.parse(height);
+      currData.height = int.parse(height);
       // Navigate to the next question page
       Navigator.push(
         context,

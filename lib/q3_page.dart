@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/main.dart';
 import 'package:hcare/q4_page.dart';
 
@@ -13,7 +12,7 @@ class _Question3PageState extends State<Question3Page> {
 
   void _handleNext(BuildContext context) async {
     // Get input values
-    currData?.gender = _selectedGender;
+    currData.gender = _selectedGender;
     // Navigate to the next question page
     Navigator.push(
       context,

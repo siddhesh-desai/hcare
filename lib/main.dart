@@ -11,6 +11,8 @@ class CurrUserData {
   int? weight;
   int? age;
   int? peakFlowReading;
+  double? pef;
+  double? percentage;
   bool? breathlessness;
   bool? beyond6Months;
   bool? haveCough;
@@ -18,9 +20,28 @@ class CurrUserData {
   bool? smokingBeyond10;
   bool? biomassSmoke;
   bool? intermittentPeriods;
+
+  CurrUserData() {
+    phone = '0';
+    name = '0';
+    height = 0;
+    gender = 'Male';
+    weight = 0;
+    age = 0;
+    peakFlowReading = 0;
+    pef = 0.0;
+    percentage = 0.0;
+    breathlessness = false;
+    beyond6Months = false;
+    haveCough = false;
+    ageSymptoms = false;
+    smokingBeyond10 = false;
+    biomassSmoke = false;
+    intermittentPeriods = false;
+  }
 }
 
-CurrUserData? currData;
+CurrUserData currData = CurrUserData();
 
 void main() {
   runApp(MyApp());

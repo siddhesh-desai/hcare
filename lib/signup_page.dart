@@ -3,7 +3,6 @@ import 'package:hcare/main.dart';
 import 'package:hcare/q1_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/login_page.dart';
 
 //Creating a stateful widget
@@ -40,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
     // If data saved successfully, navigate to home screen
     if (savedSuccessfully) {
       globalMobileNumber = phone;
-      currData?.phone = phone;
+      currData.phone = phone;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Question1Page()),

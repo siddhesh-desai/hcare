@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/main.dart';
 import 'package:hcare/q2_page.dart';
 
@@ -20,7 +19,7 @@ class _Question1PageState extends State<Question1Page> {
       _showErrorDialog(context, "Please fill in your name!");
       return;
     } else {
-      currData?.name = name;
+      currData.name = name;
       // Navigate to the next question page
       Navigator.push(
         context,

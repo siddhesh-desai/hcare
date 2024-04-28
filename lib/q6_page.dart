@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/main.dart';
+import 'package:hcare/result1_page.dart';
 
 class Question6Page extends StatefulWidget {
   @override
@@ -19,11 +19,11 @@ class _Question6PageState extends State<Question6Page> {
       _showErrorDialog(context, "Please fill in your peak flow meter reading!");
       return;
     } else {
-      currData?.peakFlowReading = int.parse(peakFlow);
+      currData.peakFlowReading = int.parse(peakFlow);
       // Navigate to the next question page
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => Result1Page()),
       );
     }
   }

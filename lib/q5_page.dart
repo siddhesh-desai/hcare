@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/main.dart';
 import 'package:hcare/q6_page.dart';
 
@@ -20,7 +19,7 @@ class _Question5PageState extends State<Question5Page> {
       _showErrorDialog(context, "Please fill in your age!");
       return;
     } else {
-      currData?.age = int.parse(age);
+      currData.age = int.parse(age);
       // Navigate to the next question page
       Navigator.push(
         context,

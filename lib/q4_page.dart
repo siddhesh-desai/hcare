@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hcare/home_page.dart';
 import 'package:hcare/main.dart';
 import 'package:hcare/q3_page.dart';
 import 'package:hcare/q5_page.dart';
@@ -21,7 +20,7 @@ class _Question4PageState extends State<Question4Page> {
       _showErrorDialog(context, "Please fill in your weight!");
       return;
     } else {
-      currData?.weight = int.parse(weight);
+      currData.weight = int.parse(weight);
       // Navigate to the next question page
       Navigator.push(
         context,
