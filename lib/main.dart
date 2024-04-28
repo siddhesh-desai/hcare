@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
 
+String? globalMobileNumber;
+
+class CurrUserData {
+  String? phone;
+  String? name;
+  int? height;
+  String? gender;
+  int? weight;
+  int? age;
+  int? peakFlowReading;
+  bool? breathlessness;
+  bool? beyond6Months;
+  bool? haveCough;
+  bool? ageSymptoms;
+  bool? smokingBeyond10;
+  bool? biomassSmoke;
+  bool? intermittentPeriods;
+}
+
+CurrUserData? currData;
+
 void main() {
   runApp(MyApp());
 }

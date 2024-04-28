@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hcare/q1_page.dart';
 import 'package:hcare/signup_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:hcare/home_screen.dart';
+import 'package:hcare/home_page.dart';
+
+import 'main.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -32,10 +35,12 @@ class _LoginPageState extends State<LoginPage> {
     int isAuthenticated = await _checkCredentials(phone, password);
 
     if (isAuthenticated == 0) {
+      globalMobileNumber = phone;
+      currData?.phone = phone;
       // Navigate to home screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => Question1Page()),
       );
     } else if (isAuthenticated == 1) {
       _showErrorDialog(context, "User does not exists, Log In");
